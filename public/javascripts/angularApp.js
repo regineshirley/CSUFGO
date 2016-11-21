@@ -77,38 +77,6 @@ app.controller('MainCtrl', [
 	'events',
 	function($scope, events){
 		$scope.events = events.events;
-		$scope.addEvent = function(){
-			if(!$scope.title || $scope.title == '') { return; }
-			if(!$scope.time || $scope.time == '') { return; }
-			if(!$scope.location || $scope.location == '') { return; }
-			if(!$scope.contact || $scope.contact == '') { return; }
-			if(!$scope.description || $scope.description == '') { return; }
-			/* Old code --
-			$scope.events.push({
-				title: $scope.title,
-				time: $scope.time,
-				location: $scope.location,
-				contact: $scope.contact,
-				description: $scope.description,
-				subscribers: [
-					{firstname: "Josh", lastname: "Fin"},
-					{firstname: "Bob", lastname: "Durstein"}
-				]
-			});
-			*/
-			events.create({
-				title: $scope.title,
-				time: $scope.time,
-				location: $scope.location,
-				contact: $scope.contact,
-				description: $scope.description
-			});
-			$scope.title = '';
-			$scope.time = '';
-			$scope.location = '';
-			$scope.contact = '';
-			$scope.description = '';
-		};
 	}
 ]);
 
@@ -158,8 +126,9 @@ app.controller('EventsCtrl', [
 
 app.controller('CreateEventCtrl', [
 	'$scope',
+	'$state',
 	'events',
-	function($scope, events){
+	function($scope, $state, events){
 		$scope.events = events.events;
 		$scope.addEvent = function(){
 			if(!$scope.title || $scope.title == '') { return; }
@@ -186,6 +155,8 @@ app.controller('CreateEventCtrl', [
 				location: $scope.location,
 				contact: $scope.contact,
 				description: $scope.description
+			}).then(function(){
+				$state.go('home');
 			});
 			$scope.title = '';
 			$scope.time = '';
